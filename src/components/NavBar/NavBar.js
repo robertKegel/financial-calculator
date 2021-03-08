@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Button, Grow, Popper, Paper, MenuItem, MenuList, ClickAwayListener } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu"
 
@@ -18,7 +18,20 @@ function NavBar(props) {
 
         setOpen(false);
     };
+
+    const handleMenuItemClick = (event) => {
+      props.setMainComponent(event.target.id);
+      handleMenuClose(event);
+    }
     
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+      if (prevOpen.current === true && open === false) {
+        anchorRef.current.focus();
+      }
+
+      prevOpen.current = open;
+    }, [open]);
 
     
     return (
@@ -28,15 +41,15 @@ function NavBar(props) {
             <IconButton ref={anchorRef} onClick={handleMenuClick}>
               <MenuIcon />
             </IconButton>
-            <Popper open={open} anchorEl={anchorRef.current} transition disablePortal aria-modal='true'>
+            <Popper open={open} anchorEl={anchorRef.current} transition>
               {({ TransitionProps }) => (
                 <Grow {...TransitionProps} style={{ transformOrigin: 'bottom-left'}}>
-                  <Paper>
+                  <Paper aria-modal='true'>
                     <ClickAwayListener onClickAway={handleMenuClose}>
                       <MenuList autoFocusItem={open} id="menu-list-grow">
-                        <MenuItem onClick={handleMenuClose}>Simple Loan</MenuItem>
-                        <MenuItem onClick={handleMenuClose}>Car Payment</MenuItem>
-                        <MenuItem onClick={handleMenuClose}>Home Affordability</MenuItem>
+                        <MenuItem onClick={handleMenuItemClick} id='SimpleLoan'>Simple Loan</MenuItem>
+                        <MenuItem onClick={handleMenuItemClick} id='FutureValue'>Future Value</MenuItem>
+                        {/*<MenuItem onClick={handleMenuItemClick} key=''></MenuItem>*/}
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>
@@ -48,7 +61,7 @@ function NavBar(props) {
             </Typography>
             <hr />
             <Typography>
-              <Button color='inheret' variant='contained' href="https://iamrobertkegel.com">
+              <Button color='inherit' variant='contained' href="https://iamrobertkegel.com">
                 iamRobertKegel
               </Button>
             </Typography>

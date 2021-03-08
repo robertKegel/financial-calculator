@@ -1,11 +1,34 @@
 import { simpleLoanPayment } from '../../util/fcalculator';
 import { useState } from 'react';
-import { Container, Paper, Grid, TextField, Typography } from '@material-ui/core';
+import { Container, Paper, Grid, TextField, Typography, InputAdornment, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   loanContainer: {
-    marginTop: '25px'
+    margin: '15px',
+    padding: '5px'
+  },
+  divHR: {
+    margin: '10px'
+  },
+  termInput: {
+    width: '180px'
+  },
+  amountInput: {
+    width: '180px'
+  },
+  rateInput: {
+    width: '180px'
+  },
+  results: {
+    maxWidth: '320px',
+    margin: 'auto'
+  },
+  resultsPayment: {
+    marginLeft: '10px'
+  },
+  resultsTotal: {
+    marginLeft: '15px'
   }
 });
 
@@ -39,39 +62,59 @@ export default function SimpleLoan(props) {
   return (
     <Container>
       <Paper className={classes.loanContainer}>
-        <Typography align='center' variant='h4' >
+        <Typography align='center' variant='h3' >
           Simple Loan Payment
         </Typography>
-        <hr></hr>
-        <Grid container spacing={3} justify='space-around'>
+        <Divider variant='middle' className={classes.divHR} />
+        <Grid container spacing={8} justify='center'>
           <Grid item xs='auto'>
             <TextField
               id="amount"
+              className={classes.amountInput}
               label="Loan Amount"
               type="number"
               variant="outlined"
               value={amount}
               onChange={handleChange}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">$</InputAdornment>
+              }}
+              inputProps={{
+                min: 0,
+                step: 100
+              }}
             />
           </Grid>
           <Grid item xs='auto'>
             <TextField
               id="rate"
+              className={classes.rateInput}
               label="Interest Rate"
               type="number"
               variant="outlined"
               value={rate}
               onChange={handleChange}
+              inputProps={{
+                step: 0.125
+              }}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">%</InputAdornment>
+              }}
             />
           </Grid>
           <Grid item xs='auto'>
             <TextField
               id="term"
+              className={classes.termInput}
               label="Term (Months)"
               type="number"
               variant="outlined"
               value={term}
               onChange={handleChange}
+              inputProps={{
+                min: 0,
+                max: 1200
+              }}
             />
           </Grid>
         </Grid>
@@ -80,20 +123,20 @@ export default function SimpleLoan(props) {
         <Typography align='center' variant='h4'>
           Results
         </Typography>
-        <hr></hr>
-        <Grid container align='center'>
+        <Divider variant='middle'/>
+        <Grid container className={classes.results}>
           <Grid item xs={12}>
-            <Typography variant='h6'>
+            <Typography variant='h6' className={classes.resultsPayment}>
               Monthly Payment: {payment && "$ " + payment.toFixed(2) || '...'}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='h6'>
+            <Typography variant='body1' className={classes.resultsTotal}>
               Total Interest: {totalInterest && "$ " + totalInterest.toFixed(2) || '...'}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='h6'>
+            <Typography variant='body2' className={classes.resultsTotal}>
               Total Payments: {totalPayments && "$ " + totalPayments.toFixed(2) || '...'}
             </Typography>
           </Grid>
