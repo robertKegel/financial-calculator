@@ -1,7 +1,8 @@
-import React, {Component, useEffect, useState} from 'react';
+import { useState } from 'react';
 
 import NavBar from "../NavBar/NavBar";
 import SimpleLoan from "../SimpleLoan/SimpleLoan";
+import PresentValue from "../PresentValue/PresentValue";
 
 
 function App() {
@@ -13,7 +14,8 @@ function App() {
   }
 
   const mainComponent = {
-    'SimpleLoan': <SimpleLoan />
+    'SimpleLoan': <SimpleLoan />,
+    'PresentValue': <PresentValue />
   }
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Button, Grow, Popper, Paper, MenuItem, MenuList, ClickAwayListener } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Typography, Button, Grow, Popper, Paper, MenuItem, MenuList, ClickAwayListener, Divider } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu"
 
 
@@ -48,8 +48,9 @@ function NavBar(props) {
                     <ClickAwayListener onClickAway={handleMenuClose}>
                       <MenuList autoFocusItem={open} id="menu-list-grow">
                         <MenuItem onClick={handleMenuItemClick} id='SimpleLoan'>Simple Loan</MenuItem>
-                        <MenuItem onClick={handleMenuItemClick} id='FutureValue'>Future Value</MenuItem>
-                        {/*<MenuItem onClick={handleMenuItemClick} key=''></MenuItem>*/}
+                        <Divider component='li' />
+                        <MenuItem onClick={handleMenuItemClick} id='PresentValue'>Present Value</MenuItem>
+                        {/*<MenuItem onClick={handleMenuItemClick} id=''></MenuItem>*/}
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>
@@ -61,7 +62,7 @@ function NavBar(props) {
             </Typography>
             <hr />
             <Typography>
-              <Button color='inherit' variant='contained' href="https://iamrobertkegel.com">
+              <Button variant='contained' href="https://iamrobertkegel.com">
                 iamRobertKegel
               </Button>
             </Typography>
