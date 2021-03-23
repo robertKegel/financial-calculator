@@ -1,23 +1,27 @@
 import { getPV } from '../../util/fcalculator';
+import { presentValueInputGridProps } from '../../util/inputprops';
+import { presentValueResultGridProps } from '../../util/resultprops';
 import { useState } from 'react';
-import { Container, Paper, Grid, TextField, Typography, InputAdornment, Divider } from '@material-ui/core';
+import { Container, Paper, Typography, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import InputGrid from '../InputGrid/InputGrid';
+import ResultGrid from '../ResultGrid/ResultGrid';
 
 const useStyles = makeStyles({
   loanPaper: {
     margin: '15px',
-    padding: '5px'
+    padding: '15px'
   },
   divHR: {
-    margin: '10px'
+    margin: '20px'
   },
-  termInput: {
+  term: {
     width: '180px'
   },
-  amountInput: {
+  fv: {
     width: '180px'
   },
-  rateInput: {
+  rate: {
     width: '180px'
   },
   results: {
@@ -29,6 +33,7 @@ const useStyles = makeStyles({
     fontAlign: 'center'
   },
 });
+
 
 export default function PresentValue(props) {
 
@@ -55,77 +60,20 @@ export default function PresentValue(props) {
   }
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth='sm'>
       <Paper className={classes.loanPaper}>
-        <Typography align='center' variant='h3' >
+        <Typography align='center' variant='h5' >
           Present Value
         </Typography>
         <Divider variant='middle' className={classes.divHR} />
-        <Grid container spacing={8} justify='center'>
-          <Grid item xs='auto'>
-            <TextField
-              id="fv"
-              className={classes.amountInput}
-              label="Future Value"
-              type="number"
-              variant="outlined"
-              value={fv}
-              onChange={handleChange}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
-              }}
-              inputProps={{
-                min: 0,
-                step: 100
-              }}
-            />
-          </Grid>
-          <Grid item xs='auto'>
-            <TextField
-              id="rate"
-              className={classes.rateInput}
-              label="Rate per period"
-              type="number"
-              variant="outlined"
-              value={rate}
-              onChange={handleChange}
-              inputProps={{
-                step: 0.125
-              }}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">%</InputAdornment>
-              }}
-            />
-          </Grid>
-          <Grid item xs='auto'>
-            <TextField
-              id="term"
-              className={classes.termInput}
-              label="Number of periods"
-              type="number"
-              variant="outlined"
-              value={term}
-              onChange={handleChange}
-              inputProps={{
-                min: 0,
-                max: 1200
-              }}
-            />
-          </Grid>
-        </Grid>
+        <InputGrid handleChange={handleChange} valueProps={{ fv, rate, term }} inputProps={presentValueInputGridProps} classes={classes} />
       </Paper>
       <Paper className={classes.loanPaper}>
-        <Typography align='center' variant='h4'>
+        <Typography align='center' variant='h6'>
           Results
         </Typography>
-        <Divider variant='middle'/>
-        <Grid container className={classes.results}>
-          <Grid item xs={12}>
-            <Typography variant='h6' className={classes.resultsPV}>
-              Present Value: {(pv && "$ " + pv.toFixed(2)) || '...'}
-            </Typography>
-          </Grid>
-        </Grid>
+        <Divider variant='middle' className={classes.divHR} />
+        <ResultGrid valueProps={{ pv }} resultProps={presentValueResultGridProps} classes={classes} />
       </Paper>
     </Container>
   )

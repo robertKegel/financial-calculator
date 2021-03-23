@@ -2,7 +2,9 @@ import { useState } from 'react';
 
 import NavBar from "../NavBar/NavBar";
 import SimpleLoan from "../SimpleLoan/SimpleLoan";
+import LoanAmount from "../LoanAmount/LoanAmount";
 import PresentValue from "../PresentValue/PresentValue";
+import FutureValue from "../FutureValue/FutureValue";
 
 
 function App() {
@@ -15,7 +17,9 @@ function App() {
 
   const mainComponent = {
     'SimpleLoan': <SimpleLoan />,
-    'PresentValue': <PresentValue />
+    'LoanAmount': <LoanAmount />,
+    'PresentValue': <PresentValue />,
+    'FutureValue': <FutureValue />
   }
 
 

@@ -1,15 +1,14 @@
-import { simpleLoanPayment } from '../../util/fcalculator';
-import { simpleLoanInputGridProps } from '../../util/inputprops';
-import { simpleLoanResultsProps } from '../../util/resultprops';
+import { getFV } from '../../util/fcalculator';
+import { futureValueInputGridProps } from '../../util/inputprops';
+import { futureValueResultGridProps } from '../../util/resultprops';
 import { useState } from 'react';
 import { Container, Paper, Typography, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import InputGrid from '../InputGrid/InputGrid';
 import ResultGrid from '../ResultGrid/ResultGrid';
 
-
 const useStyles = makeStyles({
-  loanContainer: {
+  loanPaper: {
     margin: '15px',
     padding: '15px'
   },
@@ -19,7 +18,7 @@ const useStyles = makeStyles({
   term: {
     width: '180px'
   },
-  amount: {
+  pv: {
     width: '180px'
   },
   rate: {
@@ -28,53 +27,55 @@ const useStyles = makeStyles({
   results: {
     maxWidth: '320px',
     margin: 'auto'
-  }
+  },
+  resultsFV: {
+    marginLeft: '10px',
+    fontAlign: 'center'
+  },
 });
 
 
-export default function SimpleLoan(props) {
-  
-  const classes = useStyles();
+export default function FutureValue(props) {
 
+  const [pv, setPV] = useState();
   const [rate, setRate] = useState();
   const [term, setTerm] = useState();
-  const [amount, setAmount] = useState();
 
   const setStateObject = {
     rate: setRate,
     term: setTerm,
-    amount: setAmount
+    pv: setPV
   }
+  
   
   const handleChange = (event) => {
     setStateObject[event.target.id](event.target.value);
   }
 
+  const classes = useStyles();
 
-  let payment, totalInterest, totalPayments = 0;
-
-  if (rate && term && amount) {
-    payment = simpleLoanPayment(rate / 1200, term, amount);
-    totalPayments = payment * term;
-    totalInterest = totalPayments - amount;
+  let fv = 0;
+  if (pv && rate && term) {
+    fv = getFV(rate/100, term, pv);
   }
 
   return (
     <Container maxWidth='sm'>
-      <Paper className={classes.loanContainer}>
+      <Paper className={classes.loanPaper}>
         <Typography align='center' variant='h5' >
-          Simple Loan Payment
+          Future Value
         </Typography>
         <Divider variant='middle' className={classes.divHR} />
-        <InputGrid handleChange={handleChange} valueProps={{ rate, term, amount }} inputProps={simpleLoanInputGridProps} classes={classes} />
+        <InputGrid handleChange={handleChange} valueProps={{ pv, rate, term }} inputProps={futureValueInputGridProps} classes={classes} />
       </Paper>
-      <Paper className={classes.loanContainer}>
+      <Paper className={classes.loanPaper}>
         <Typography align='center' variant='h6'>
           Results
         </Typography>
-        <Divider variant='middle'/>
-        <ResultGrid valueProps={{ payment, totalInterest, totalPayments }} resultProps={simpleLoanResultsProps} classes={classes} />
+        <Divider variant='middle' className={classes.divHR} />
+        <ResultGrid valueProps={{ fv }} resultProps={futureValueResultGridProps} classes={classes} />
       </Paper>
     </Container>
   )
+
 }

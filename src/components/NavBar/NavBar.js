@@ -41,16 +41,19 @@ function NavBar(props) {
             <IconButton ref={anchorRef} onClick={handleMenuClick}>
               <MenuIcon />
             </IconButton>
-            <Popper open={open} anchorEl={anchorRef.current} transition>
+            <Popper aria-modal='true' open={open} anchorEl={anchorRef.current} transition>
               {({ TransitionProps }) => (
                 <Grow {...TransitionProps} style={{ transformOrigin: 'bottom-left'}}>
                   <Paper aria-modal='true'>
                     <ClickAwayListener onClickAway={handleMenuClose}>
                       <MenuList autoFocusItem={open} id="menu-list-grow">
-                        <MenuItem onClick={handleMenuItemClick} id='SimpleLoan'>Simple Loan</MenuItem>
+                        <MenuItem onClick={handleMenuItemClick} id='SimpleLoan'>Loan Payment</MenuItem>
+                        <Divider component='li' />
+                        <MenuItem onClick={handleMenuItemClick} id='LoanAmount'>Loan Amount</MenuItem>
                         <Divider component='li' />
                         <MenuItem onClick={handleMenuItemClick} id='PresentValue'>Present Value</MenuItem>
-                        {/*<MenuItem onClick={handleMenuItemClick} id=''></MenuItem>*/}
+                        <Divider component='li' />
+                        <MenuItem onClick={handleMenuItemClick} id='FutureValue'>Future Value</MenuItem>
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>

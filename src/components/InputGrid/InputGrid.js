@@ -8,7 +8,7 @@ export default function InputGrid(props) {
   const inputProps = props.inputProps;
 
   return (
-    <Grid container spacing={8} justify='center'>
+    <Grid container spacing={3} alignItems='center' direction='column'>
       {inputProps.map(inputProp => {
         return(
           <Grid item xs='auto'>

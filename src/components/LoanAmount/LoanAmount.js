@@ -1,6 +1,6 @@
-import { simpleLoanPayment } from '../../util/fcalculator';
-import { simpleLoanInputGridProps } from '../../util/inputprops';
-import { simpleLoanResultsProps } from '../../util/resultprops';
+import { getNPV } from '../../util/fcalculator';
+import { loanAmountInputGridProps } from '../../util/inputprops';
+import { loanAmountResultGridProps } from '../../util/resultprops';
 import { useState } from 'react';
 import { Container, Paper, Typography, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   term: {
     width: '180px'
   },
-  amount: {
+  payment: {
     width: '180px'
   },
   rate: {
@@ -38,12 +38,12 @@ export default function SimpleLoan(props) {
 
   const [rate, setRate] = useState();
   const [term, setTerm] = useState();
-  const [amount, setAmount] = useState();
+  const [payment, setPayment] = useState();
 
   const setStateObject = {
     rate: setRate,
     term: setTerm,
-    amount: setAmount
+    payment: setPayment
   }
   
   const handleChange = (event) => {
@@ -51,10 +51,14 @@ export default function SimpleLoan(props) {
   }
 
 
-  let payment, totalInterest, totalPayments = 0;
+  let amount, totalInterest, totalPayments = 0;
+  let paymentArray = [];
 
-  if (rate && term && amount) {
-    payment = simpleLoanPayment(rate / 1200, term, amount);
+  if (rate && term && payment) {
+    for (let i=0; i < term; i++){
+      paymentArray.push(payment);
+    }
+    amount = getNPV(rate / 12, 0, paymentArray);
     totalPayments = payment * term;
     totalInterest = totalPayments - amount;
   }
@@ -63,17 +67,17 @@ export default function SimpleLoan(props) {
     <Container maxWidth='sm'>
       <Paper className={classes.loanContainer}>
         <Typography align='center' variant='h5' >
-          Simple Loan Payment
+          Simple Loan Amount
         </Typography>
         <Divider variant='middle' className={classes.divHR} />
-        <InputGrid handleChange={handleChange} valueProps={{ rate, term, amount }} inputProps={simpleLoanInputGridProps} classes={classes} />
+        <InputGrid handleChange={handleChange} valueProps={{ rate, term, payment }} inputProps={loanAmountInputGridProps} classes={classes} />
       </Paper>
       <Paper className={classes.loanContainer}>
         <Typography align='center' variant='h6'>
           Results
         </Typography>
         <Divider variant='middle'/>
-        <ResultGrid valueProps={{ payment, totalInterest, totalPayments }} resultProps={simpleLoanResultsProps} classes={classes} />
+        <ResultGrid valueProps={{ amount, totalPayments, totalInterest }} resultProps={loanAmountResultGridProps} classes={classes} />
       </Paper>
     </Container>
   )
