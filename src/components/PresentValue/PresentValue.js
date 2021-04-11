@@ -27,11 +27,7 @@ const useStyles = makeStyles({
   results: {
     maxWidth: '320px',
     margin: 'auto'
-  },
-  resultsPV: {
-    marginLeft: '10px',
-    fontAlign: 'center'
-  },
+  }
 });
 
 
