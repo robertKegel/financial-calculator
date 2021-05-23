@@ -39,7 +39,7 @@ function NavBar(props) {
         <AppBar position="static">
           <Toolbar>
             <IconButton ref={anchorRef} onClick={handleMenuClick}>
-              <MenuIcon />
+              <MenuIcon style={{ color: "white" }} />
             </IconButton>
             <Popper aria-modal='true' open={open} anchorEl={anchorRef.current} transition>
               {({ TransitionProps }) => (
